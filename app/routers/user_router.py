@@ -14,7 +14,11 @@ async def create_user(user: UserCreate, db: AsyncSession = Depends(get_db)):
     if existing_user.scalar():
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    new_user = User(email=user.email, name=user.name)
+    new_user = User(
+        email=user.email,
+        name=user.name,
+        description=user.description  # New field
+    )
     db.add(new_user)
     await db.commit()
     await db.refresh(new_user)
