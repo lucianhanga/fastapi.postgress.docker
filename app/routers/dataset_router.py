@@ -3,8 +3,9 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from app.db.session import get_db
-from app.db.models.dataset import Dataset
+from app.db.models import Dataset
 from app.schemas.dataset_schema import DatasetCreate, DatasetUpdate, DatasetResponse
+import uuid  # Import the uuid module
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
