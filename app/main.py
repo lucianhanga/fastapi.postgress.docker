@@ -3,18 +3,26 @@ from app.db.models import Base
 from app.db.session import engine
 from app.routers import user_router
 import os
+import logging
 
-# Set up logging
-LOG_DIR = "/app/logs"
-os.makedirs(LOG_DIR, exist_ok=True)
+# Determine if running in Docker
+in_docker = os.getenv('IN_DOCKER', 'False') == 'True'
 
+# Set log directory based on environment
+log_dir = '/app/logs' if in_docker else './logs'
+
+# Ensure log directory exists
+os.makedirs(log_dir, exist_ok=True)
+
+# Configure logging
 logging.basicConfig(
-    filename=f"{LOG_DIR}/app.log",
+    filename=os.path.join(log_dir, 'app.log'),
     level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    format='%(asctime)s %(levelname)s %(message)s'
 )
 
 logger = logging.getLogger(__name__)
+logger.info('Logging setup complete.')
 
 app = FastAPI()
 
