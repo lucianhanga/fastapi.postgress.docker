@@ -5,11 +5,13 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql+asyncpg://myuser:mypassword@db/mydb
+      - DATABASE_URL=${DATABASE_URL}
+      - IN_DOCKER=True
     volumes:
       - app_logs:/app/logs  # Persistent logs for the API container
     depends_on:
       - db
+      - rabbitmq
 
   db:
     image: postgres:15
@@ -23,8 +25,19 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Persistent database storage
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq  # Persistent RabbitMQ storage
+
 volumes:
   app_logs:
     driver: local
   postgres_data:
+    driver: local
+  rabbitmq_data:
     driver: local
