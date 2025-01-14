@@ -34,6 +34,17 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq  # Persistent RabbitMQ storage
 
+  machine:
+    build:
+      context: ./machine
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_QUEUE=training
+    depends_on:
+      - rabbitmq
+    deploy:
+      replicas: 3
+
 volumes:
   app_logs:
     driver: local
