@@ -4,3 +4,4 @@ venv/
 # Byte-compiled files
 __pycache__/
 *.py[cod]
+logs/app.log
