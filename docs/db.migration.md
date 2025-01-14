@@ -33,6 +33,16 @@ def downgrade() -> None:
     # ### end Alembic commands ###
 ```
 
+
+## Step 3. Uodate the db/models.py file
+
+```python
+class User(Base):
+    __tablename__ = "users"
+    # ...
+    description = Column(String, nullable=True)  # New field
+```
+
 ## Step 3. Update the database schema
 
 In the db/schemas/user_schema.py file, add the new "description" field to the User schema:
