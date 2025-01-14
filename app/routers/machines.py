@@ -5,13 +5,13 @@ from app.schemas.training_schema import StartTrainingRequest, StopTrainingReques
 
 router = APIRouter()
 
-def send_message_to_broker(message: dict, broadcast: bool = False):
+def send_message_to_broker(message: dict):
     connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
     channel = connection.channel()
-    channel.queue_declare(queue='training')
+    channel.exchange_declare(exchange='training_exchange', exchange_type='fanout')
     channel.basic_publish(
-        exchange='' if not broadcast else 'amq.fanout',
-        routing_key='training' if not broadcast else '',
+        exchange='training_exchange',
+        routing_key='',
         body=json.dumps(message)
     )
     connection.close()
@@ -36,7 +36,7 @@ async def stop_training(request: StopTrainingRequest):
             "action": "stop_training",
             "trainingid": str(request.trainingid)
         }
-        send_message_to_broker(message, broadcast=True)
+        send_message_to_broker(message)
         return {"message": "Training stopped", "trainingid": request.trainingid}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
