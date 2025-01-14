@@ -1,6 +1,6 @@
-import logging
 from fastapi import FastAPI
-from app.db.models import Base, engine
+from app.db.models import Base
+from app.db.session import engine
 from app.routers import user_router
 import os
 
@@ -28,4 +28,5 @@ async def startup():
 async def shutdown():
     logger.info("Application has stopped")
 
+# Add your routers
 app.include_router(user_router.router, prefix="/users", tags=["Users"])
