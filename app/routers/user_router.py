@@ -69,3 +69,27 @@ async def delete_user(user_id: int, db: AsyncSession = Depends(get_db)):
     await db.commit()
     logger.info("User deleted successfully with id: %d", user_id)
     return user_obj
+
+@router.get("/", response_model=list[UserResponse])
+async def list_users(db: AsyncSession = Depends(get_db)):
+    logger.info("Received request to list all users")
+    
+    result = await db.execute(select(User))
+    users = result.scalars().all()
+    logger.info("Listed all users")
+    return users
+
+@router.get("/{user_id}", response_model=UserResponse)
+async def get_user(user_id: int, db: AsyncSession = Depends(get_db)):
+    logger.info("Received request to get user with id: %d", user_id)
+    
+    existing_user = await db.execute(
+        select(User).where(User.id == user_id)
+    )
+    user_obj = existing_user.scalar()
+    if not user_obj:
+        logger.warning("User not found with id: %d", user_id)
+        raise HTTPException(status_code=404, detail="User not found")
+
+    logger.info("User found with id: %d", user_id)
+    return user_obj
