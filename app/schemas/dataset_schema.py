@@ -8,7 +8,7 @@ class DatasetBase(BaseModel):
     images: str
 
 class DatasetCreate(DatasetBase):
-    pass
+    owner_id: uuid.UUID  # Include owner_id in the creation schema
 
 class DatasetUpdate(BaseModel):
     name: Optional[str] = None
@@ -17,6 +17,7 @@ class DatasetUpdate(BaseModel):
 
 class DatasetResponse(DatasetBase):
     id: uuid.UUID
+    owner_id: uuid.UUID  # Include owner_id in the response schema
 
     class Config:
         orm_mode = True

@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from app.db.session import get_db
-from app.db.models import Dataset
+from app.db.models import Dataset, User
 from app.schemas.dataset_schema import DatasetCreate, DatasetUpdate, DatasetResponse
 import uuid  # Import the uuid module
 
@@ -14,10 +14,18 @@ logger = logging.getLogger(__name__)
 async def create_dataset(dataset: DatasetCreate, db: AsyncSession = Depends(get_db)):
     logger.info("Received request to create dataset with name: %s", dataset.name)
     
+    # Verify the owner exists
+    owner = await db.execute(select(User).where(User.id == dataset.owner_id))
+    owner_obj = owner.scalar()
+    if not owner_obj:
+        logger.warning("Owner not found with id: %s", dataset.owner_id)
+        raise HTTPException(status_code=404, detail="Owner not found")
+
     new_dataset = Dataset(
         name=dataset.name,
         description=dataset.description,
-        images=dataset.images
+        images=dataset.images,
+        owner_id=dataset.owner_id
     )
     db.add(new_dataset)
     await db.commit()
