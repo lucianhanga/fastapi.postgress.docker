@@ -5,7 +5,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=postgresql+asyncpg://myuser:mypassword@db/mydb
       - IN_DOCKER=True
     volumes:
       - app_logs:/app/logs  # Persistent logs for the API container
