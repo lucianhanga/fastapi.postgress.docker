@@ -8,10 +8,10 @@ router = APIRouter()
 def send_message_to_broker(message: dict):
     connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
     channel = connection.channel()
-    channel.exchange_declare(exchange='training_exchange', exchange_type='fanout')
+    channel.queue_declare(queue='training')
     channel.basic_publish(
-        exchange='training_exchange',
-        routing_key='',
+        exchange='',
+        routing_key='training',
         body=json.dumps(message)
     )
     connection.close()

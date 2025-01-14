@@ -34,11 +34,8 @@ def callback(ch, method, properties, body):
 def consume_messages():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host))
     channel = connection.channel()
-    channel.exchange_declare(exchange='training_exchange', exchange_type='fanout')
-    result = channel.queue_declare(queue='', exclusive=True)
-    queue_name = result.method.queue
-    channel.queue_bind(exchange='training_exchange', queue=queue_name)
-    channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
+    channel.queue_declare(queue=rabbitmq_queue)
+    channel.basic_consume(queue=rabbitmq_queue, on_message_callback=callback, auto_ack=True)
     logger.info(f"Machine {hostname} is waiting for messages. To exit press CTRL+C")
     channel.start_consuming()
 
