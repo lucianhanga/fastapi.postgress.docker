@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from app.db.models import Base
+from app.db.models.dataset import Base
 from app.db.session import engine
-from app.routers import user_router, machines
+from app.routers import user_router, machines, dataset_router
 import os
 import logging
 
@@ -39,3 +39,4 @@ async def shutdown():
 # Add your routers
 app.include_router(user_router.router, prefix="/users", tags=["users"])
 app.include_router(machines.router, prefix="/machines", tags=["machines"])
+app.include_router(dataset_router.router, prefix="/datasets", tags=["datasets"])
