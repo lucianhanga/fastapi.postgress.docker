@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Integer, Float, DateTime, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, DateTime, ForeignKey, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -13,7 +13,7 @@ class Training(Base):
     base_model = Column(String, nullable=False)
     imgs_count = Column(Integer, nullable=False)
     time_taken = Column(Float, nullable=False)
-    start_date = Column(DateTime, default=datetime.utcnow, nullable=False)
+    start_date = Column(DateTime, default=func.now(), nullable=False)
     owner_id = Column(UUID(as_uuid=True), ForeignKey('users.id'))
     dataset_id = Column(UUID(as_uuid=True), ForeignKey('datasets.id'))
     owner = relationship("User", back_populates="trainings")

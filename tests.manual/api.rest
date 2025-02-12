@@ -13,8 +13,8 @@ POST {{users_router}}
 Content-Type: application/json
 
 {
-  "email": "johnny9.doe@example.com",
-  "name": "Johnny9 Doe",
+  "email": "johnny10.doe@example.com",
+  "name": "Johnny10 Doe",
   "description": "The description"
 }
 

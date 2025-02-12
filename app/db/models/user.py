@@ -13,3 +13,6 @@ class User(Base):
     description = Column(String, nullable=True)
     datasets = relationship("Dataset", back_populates="owner")
     trainings = relationship("Training", back_populates="owner")
+    credits = relationship("Credit", back_populates="owner", uselist=False)  # New relationship
+    
+    
