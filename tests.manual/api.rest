@@ -1,9 +1,52 @@
+@base_url = http://localhost:8000
+@users_router = {{base_url}}/users
 
-POST http://localhost:8000/users
+### List all users
+# This request retrieves a list of all users from the server.
+GET {{users_router}}
+
+
+### Create a new user
+# This request creates a new user with the provided email, name, and description.
+# @name postUser
+POST {{users_router}}
+Content-Type: application/json
 
 {
-  "name": "John Doe",
-  "email": "john.doe3@gmail.com",
-  "description": "A description"
+  "email": "johnny9.doe@example.com",
+  "name": "Johnny9 Doe",
+  "description": "The description"
 }
+
+### Save the user ID from the creation response
+# This line saves the user ID from the response of the previous POST request.
+@user_id = {{postUser.response.body.id}}
+
+# The following call is used to debug the user_id variable
+# This request sends the saved user ID to httpbin.org for debugging purposes.
+POST https://httpbin.org/post
+Content-Type: application/json
+
+{
+  "debug_user_id": {{user_id}}
+}
+
+
+### Get the user by ID
+# This request retrieves the details of the user with the saved user ID.
+GET {{users_router}}/{{user_id}}
+
+### Update the user's description
+# This request updates the description of the user with the saved user ID.
+PUT {{users_router}}/{{user_id}}
+Content-Type: application/json
+
+{
+  "description": "An updated description"
+}
+
+### List all users to verify the update
+# This request retrieves a list of all users to verify that the user's description has been updated.
+GET {{users_router}}
+
 
