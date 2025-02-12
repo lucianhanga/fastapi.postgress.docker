@@ -42,6 +42,17 @@ Content-Type: text/plain
 This is another test file in new_folder.
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
+### Upload a text file to new_folder
+POST {{filemanager_router}}/create-file
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="new_folder/testfile3.txt"
+Content-Type: text/plain
+
+This is another test file 3 in new_folder.
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
 ### Upload an image file to new_folder
 POST {{filemanager_router}}/create-file
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
@@ -64,4 +75,13 @@ GET {{filemanager_router}}/check-object/non_existent_object
 
 ### List all contents of a folder
 GET {{filemanager_router}}/list-contents/new_folder
+
+### Remove a file
+DELETE {{filemanager_router}}/remove-file/pic1.jpg
+
+### Remove a file
+DELETE {{filemanager_router}}/remove-file/new_folder/testfile3.txt
+
+### Remove a folder
+DELETE {{filemanager_router}}/remove-folder/new_folder
 

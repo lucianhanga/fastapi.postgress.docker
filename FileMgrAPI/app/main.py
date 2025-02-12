@@ -16,7 +16,7 @@ os.makedirs(log_dir, exist_ok=True)
 # Configure logging
 logging.basicConfig(
     filename=os.path.join(log_dir, 'app.log'),
-    level=logging.INFO,
+    level=logging.INFO, 
     format='%(asctime)s %(levelname)s %(message)s'
 )
 
