@@ -1,9 +1,9 @@
 services:
-  web:
-    build: .
-    container_name: fastapi_app
+  backend:
+    build: ./BackEndAPI
+    container_name: backend
     ports:
-      - "8000:8000"
+      - "8001:8000"
     environment:
       - DATABASE_URL=postgresql+asyncpg://myuser:mypassword@db/mydb
       - IN_DOCKER=True
