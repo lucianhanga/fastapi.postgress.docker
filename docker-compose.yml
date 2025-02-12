@@ -25,7 +25,20 @@ services:
       - pubapigw_logs:/app/logs  # Persistent logs for the API container
     depends_on:
       - backend
-     
+
+  filemgrapi:
+    build:
+      context: ./FileMgrAPI
+    container_name: filemgrapi
+    ports:
+      - "8003:8003"
+    environment:
+      - IN_DOCKER=True
+    volumes:
+      - filemgrapi_logs:/app/logs  # Persistent logs for the API container
+    depends_on:
+      - backend
+
   db:
     image: postgres:15
     container_name: postgres_db
@@ -62,6 +75,8 @@ volumes:
   backend_logs:
     driver: local
   pubapigw_logs:
+    driver: local
+  filemgrapi_logs:
     driver: local
   postgres_data:
     driver: local
