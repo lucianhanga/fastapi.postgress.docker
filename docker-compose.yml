@@ -8,11 +8,24 @@ services:
       - DATABASE_URL=postgresql+asyncpg://myuser:mypassword@db/mydb
       - IN_DOCKER=True
     volumes:
-      - app_logs:/app/logs  # Persistent logs for the API container
+      - backend_logs:/app/logs  # Persistent logs for the API container
     depends_on:
       - db
       - rabbitmq
 
+  pubapigw:
+    build:
+      context: ./PublicAPIGw
+    container_name: pubapigw
+    ports:
+      - "8002:8002"
+    environment:
+      - IN_DOCKER=True
+    volumes:
+      - pubapigw_logs:/app/logs  # Persistent logs for the API container
+    depends_on:
+      - backend
+     
   db:
     image: postgres:15
     container_name: postgres_db
@@ -46,7 +59,9 @@ services:
       replicas: 3
 
 volumes:
-  app_logs:
+  backend_logs:
+    driver: local
+  pubapigw_logs:
     driver: local
   postgres_data:
     driver: local
