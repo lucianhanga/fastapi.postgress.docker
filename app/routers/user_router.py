@@ -3,7 +3,9 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from app.db.session import get_db
-from app.db.models import User
+from app.db.models.user import User
+from app.db.models.dataset import Dataset
+from app.db.models.training import Training
 from app.schemas.user_schema import UserCreate, UserUpdate, UserResponse
 from uuid import UUID
 

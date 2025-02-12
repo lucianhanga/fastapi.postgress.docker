@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.db.models import Base
+from app.db.models import Base, User, Dataset, Training
 from app.db.session import engine
 from app.routers import user_router, machines, dataset_router
 import os
