@@ -3,3 +3,4 @@ from app.db.models.user import User
 from app.db.models.dataset import Dataset
 from app.db.models.training import Training
 from app.db.models.credit import Credit
+from app.db.models.credit_transaction import CreditTransaction
