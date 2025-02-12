@@ -15,6 +15,7 @@ class User(Base):
     trainings = relationship("Training", back_populates="owner")
     credits = relationship("Credit", back_populates="owner", uselist=False)
     credit_transactions = relationship("CreditTransaction", back_populates="owner")
-    credit_management_transactions = relationship("CreditManagementTransaction", back_populates="owner")  # New relationship
+    credit_management_transactions = relationship("CreditManagementTransaction", back_populates="owner")
+    generations = relationship("Generation", back_populates="owner")  # New relationship
 
 
