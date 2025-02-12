@@ -36,6 +36,7 @@ services:
       - IN_DOCKER=True
     volumes:
       - filemgrapi_logs:/app/logs  # Persistent logs for the API container
+      - filemgrapi_data:/app/data  # Volume for file storage
     depends_on:
       - backend
 
@@ -78,6 +79,8 @@ volumes:
     driver: local
   filemgrapi_logs:
     driver: local
+  filemgrapi_data:
+    driver: local  # Volume for file storage
   postgres_data:
     driver: local
   rabbitmq_data:

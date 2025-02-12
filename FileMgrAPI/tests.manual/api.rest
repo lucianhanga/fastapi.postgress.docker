@@ -1,0 +1,67 @@
+@base_url = http://localhost:8003
+@filemanager_router = {{base_url}}/filemanager
+
+### Upload a text file
+POST {{filemanager_router}}/create-file
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="testfile.txt"
+Content-Type: text/plain
+
+This is the content of the test file.
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Upload an image file
+POST {{filemanager_router}}/create-file
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="pic1.jpg"
+Content-Type: image/jpeg
+
+< ./pic1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Create a folder
+POST {{filemanager_router}}/create-folder
+Content-Type: application/json
+
+{
+  "foldername": "new_folder"
+}
+
+### Upload a text file to new_folder
+POST {{filemanager_router}}/create-file
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="new_folder/testfile2.txt"
+Content-Type: text/plain
+
+This is another test file in new_folder.
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Upload an image file to new_folder
+POST {{filemanager_router}}/create-file
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="new_folder/pic2.jpg"
+Content-Type: image/jpeg
+
+< ./pic1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Check if an object exists and return its type
+GET {{filemanager_router}}/check-object/testfile.txt
+
+### Check if a folder exists and return its type
+GET {{filemanager_router}}/check-object/new_folder
+
+### Check if a non-existent object exists and return its type
+GET {{filemanager_router}}/check-object/non_existent_object
+
+### List all contents of a folder
+GET {{filemanager_router}}/list-contents/new_folder
+

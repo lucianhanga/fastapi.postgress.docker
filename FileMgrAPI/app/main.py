@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from app.routers import filemanager
 
 import os
 import logging
@@ -27,4 +28,7 @@ app = FastAPI()
 @app.get("/")
 async def read_root():
     return {"message": "Welcome to FileMgrAPI"}
+
+# Include the filemanager router
+app.include_router(filemanager.router, prefix="/filemanager", tags=["filemanager"])
 
